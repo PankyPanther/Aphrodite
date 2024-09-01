@@ -90,15 +90,15 @@ export class RoomState {
 
         for(const creepName in Game.creeps){
             const creep = Game.creeps[creepName]
-            if (creep.memory.role === Role.harvester){
+            if (creep.memory.role === Role.Harvester){
                 this.harvesterStates.push(new IdleHarvesterState(creep, this))
             }
 
-            if (creep.memory.role === Role.hauler){
+            if (creep.memory.role === Role.Hauler){
                 this.haulerStates.push(new IdleHaulerState(creep, this))
             }
 
-            if (creep.memory.role === Role.upgrader){
+            if (creep.memory.role === Role.Upgrader){
                 this.haulerStates.push(new IdleUpgraderState(creep, this))
             }
         }

@@ -8,7 +8,7 @@ export class HaulerSpawnState implements ISpawnState {
         return this
     }
     run(): void {
-        this.spawn.spawnCreep([CARRY, CARRY, MOVE], "Hauler" + Game.time, {memory: {role: Role.hauler}})
+        this.spawn.spawnCreep([CARRY, CARRY, MOVE], "Hauler" + Game.time, {memory: {role: Role.Hauler}})
     }
     
     constructor(spawn: StructureSpawn){

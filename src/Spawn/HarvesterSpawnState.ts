@@ -8,7 +8,7 @@ export class HarvesterSpawnState implements ISpawnState {
         return this
     }
     run(): void {
-        this.spawn.spawnCreep([WORK, MOVE], "Harvester" + Game.time, {memory: {role: Role.harvester}})
+        this.spawn.spawnCreep([WORK, MOVE], "Harvester" + Game.time, {memory: {role: Role.Harvester}})
     }
     
     constructor(spawn: StructureSpawn){
