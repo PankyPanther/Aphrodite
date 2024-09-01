@@ -9,6 +9,7 @@ export class HarvestHarvesterState implements ICreepState {
         return this
     }
     run(): void {
+
         if (this.creep.harvest(this.roomState.sources[1]) === ERR_NOT_IN_RANGE){
             this.creep.moveTo(this.roomState.sources[1])
         }

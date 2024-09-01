@@ -1,7 +1,7 @@
 import { RoomState } from "Room/RoomState";
 import { ICreepState } from "../IState/ICreepState";
 
-export class HaulHaulerState implements ICreepState {
+export class UpgradeControllerUpgradeState implements ICreepState {
     creep: Creep;
     roomState: RoomState
     
@@ -9,9 +9,10 @@ export class HaulHaulerState implements ICreepState {
         return this
     }
     run(): void {
-        if (this.creep.transfer(this.roomState.spawns[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-            this.creep.moveTo(this.roomState.spawns[0])
+        if (this.creep.upgradeController(this.roomState.controller!) === ERR_NOT_IN_RANGE) {
+            this.creep.moveTo(this.roomState.controller!)
         }
+        this.creep.moveTo(this.roomState.controller!)
     }
     
     constructor(creep: Creep, roomState: RoomState) {
