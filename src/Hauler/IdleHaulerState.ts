@@ -7,7 +7,7 @@ export class IdleHaulerState implements ICreepState {
     roomState: RoomState
     
     update(): ICreepState {
-        return new HaulHaulerState(this.creep)
+        return new HaulHaulerState(this.creep, this.roomState)
     }
     run(): void {
         throw new Error("Method not implemented.");

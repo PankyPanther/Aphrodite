@@ -7,7 +7,7 @@ export class IdleHarvesterState implements ICreepState {
     roomState: RoomState
     
     update(): ICreepState {
-        return new HarvestHarvesterState(this.creep)
+        return new HarvestHarvesterState(this.creep, this.roomState)
     }
     run(): void {
         throw new Error("Method not implemented.");

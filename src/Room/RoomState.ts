@@ -1,24 +1,34 @@
 import { ICreepState } from "../IState/ICreepState"
 import { IdleHarvesterState } from "../Harvester/IdleHavesterState"
 import { Role } from "Enums/Roles"
+import { IdleSpawnState } from "Spawn/IdleSpawnState"
 
 export class RoomState {
     room: Room
     harvesterStates: ICreepState[]
     haulerStates: ICreepState[]
 
-    executeLogic() {
+    public executeLogic(): void {
+        //------------------------------------------------------------------------
         for (let i = 0; i < this.harvesterStates.length; i++){
             this.harvesterStates[i] = this.harvesterStates[i].update()
-            this.haulerStates[i] = this.haulerStates[i].update()
         }
-
-        
         for (const state of this.harvesterStates){
             state.run()
         }
+
+        //------------------------------------------------------------------------
+        for (let i = 0; i < this.haulerStates.length; i++){
+            this.haulerStates[i] = this.haulerStates[i].update()
+        }
         for (const state of this.haulerStates){
             state.run()
+        }
+
+        //------------------------------------------------------------------------
+        for (const spawn of this.spawns){
+            const spawner = new IdleSpawnState(spawn).update()
+            spawner.run()
         }
     }
     
@@ -30,8 +40,12 @@ export class RoomState {
         return this.room.find(FIND_MINERALS)
     }
 
-    get spawn(): StructureSpawn[] {
+    get spawns(): StructureSpawn[] {
         return this.room.find(FIND_MY_SPAWNS)
+    }
+
+    get droppedSource(): Resource<ResourceConstant>[] {
+        return this.room.find(FIND_DROPPED_RESOURCES)
     }
     
     constructor(room: Room) {
