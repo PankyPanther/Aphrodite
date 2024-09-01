@@ -1,6 +1,5 @@
 export interface ICreepState {
-    //update functiuon
+    creep: Creep
     update(): ICreepState
     run(): void
-    creep: Creep
 }

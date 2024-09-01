@@ -1,13 +1,14 @@
-import { ICreepState } from "./ICreepState";
+import { ICreepState } from "../IState/ICreepState";
 
 export class HarvestHarvesterState implements ICreepState {
+    creep: Creep;
+    
     update(): ICreepState {
         return this
     }
     run(): void {
         // immpleneted harvest logic
     }
-    creep: Creep;
     
     constructor(creep: Creep) {
         this.creep = creep
