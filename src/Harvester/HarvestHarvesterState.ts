@@ -9,9 +9,10 @@ export class HarvestHarvesterState implements ICreepState {
         return this
     }
     run(): void {
-        this.creep.say('harvesting')
-        if (this.creep.harvest(Game.getObjectById(this.creep.memory.harvesterData!.id)!) === ERR_NOT_IN_RANGE){
-            this.creep.moveTo(this.creep.memory.harvesterData!.pos)
+        const source = Game.getObjectById(this.creep.memory.harvesterData!.id)!
+        console.log(this.creep.harvest(source))
+        if (this.creep.harvest(source) === ERR_NOT_IN_RANGE){
+            this.creep.moveTo(source)
         }
     }
     

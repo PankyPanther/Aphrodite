@@ -12,31 +12,35 @@ export class IdleSpawnState implements ISpawnState {
     update(): ISpawnState {
         const creeps: number = Object.keys(Game.creeps).length
 
-        if (creeps < 6){
-            switch (creeps) {
-                case 0:
-                case 2:
-                return new HarvesterSpawnState(this.spawn, this.roomState);
-    
-                case 1:
-                case 3:
-                return new HaulerSpawnState(this.spawn);
-    
-                case 4:
-                case 5:
-                return new UpgraderSpawnState(this.spawn);
-            }
-        } else {
-            switch(this.leastMadeCreep){
-                case Role.Harvester:
-                    if(this.roomState.openSource === null) {break}
+        if (!this.spawn.spawning){
+            if (creeps < 6){
+                switch (creeps) {
+                    case 0:
+                    case 2:
                     return new HarvesterSpawnState(this.spawn, this.roomState);
-                case Role.Hauler:
+        
+                    case 1:
+                    case 3:
                     return new HaulerSpawnState(this.spawn);
-                case Role.Upgrader:
+        
+                    case 4:
+                    case 5:
                     return new UpgraderSpawnState(this.spawn);
+                }
+            } else {
+                switch(this.leastMadeCreep){
+                    case Role.Harvester:
+                        if(this.roomState.openSource === null) {break}
+                        return new HarvesterSpawnState(this.spawn, this.roomState);
+                    case Role.Hauler:
+                        return new HaulerSpawnState(this.spawn);
+                    case Role.Upgrader:
+                        return new UpgraderSpawnState(this.spawn);
+                }
             }
         }
+
+
 
         return new IdleSpawnState(this.spawn, this.roomState)
     }

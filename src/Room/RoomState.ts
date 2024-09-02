@@ -20,7 +20,6 @@ export class RoomState {
         if (!Memory.rooms[this.room.name]){
             this.initRoom()
         }
-
         this.creepLogic()
         this.spawnLogic()
     }
