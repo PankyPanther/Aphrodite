@@ -3,9 +3,11 @@ import { HarvesterSpawnState } from "./HarvesterSpawnState";
 import { HaulerSpawnState } from "./HaulerSpawnState";
 import { UpgraderSpawnState } from "./UpgraderSpawnState";
 import { Role } from "Enums/Roles";
+import { RoomState } from "Room/RoomState";
 
 export class IdleSpawnState implements ISpawnState { 
     spawn: StructureSpawn;
+    roomState: RoomState
 
     update(): ISpawnState {
         const creeps: number = Object.keys(Game.creeps).length
@@ -14,7 +16,7 @@ export class IdleSpawnState implements ISpawnState {
             switch (creeps) {
                 case 0:
                 case 2:
-                return new HarvesterSpawnState(this.spawn);
+                return new HarvesterSpawnState(this.spawn, this.roomState);
     
                 case 1:
                 case 3:
@@ -27,7 +29,8 @@ export class IdleSpawnState implements ISpawnState {
         } else {
             switch(this.leastMadeCreep){
                 case Role.Harvester:
-                    return new HarvesterSpawnState(this.spawn);
+                    if(this.roomState.openSource === null) {break}
+                    return new HarvesterSpawnState(this.spawn, this.roomState);
                 case Role.Hauler:
                     return new HaulerSpawnState(this.spawn);
                 case Role.Upgrader:
@@ -35,7 +38,7 @@ export class IdleSpawnState implements ISpawnState {
             }
         }
 
-        return new IdleSpawnState(this.spawn)
+        return new IdleSpawnState(this.spawn, this.roomState)
     }
 
     run(): void {
@@ -65,7 +68,8 @@ export class IdleSpawnState implements ISpawnState {
         return minRole;
     }
     
-    constructor(spawn: StructureSpawn){
+    constructor(spawn: StructureSpawn, roomState: RoomState){
         this.spawn = spawn
+        this.roomState = roomState
     }
 }

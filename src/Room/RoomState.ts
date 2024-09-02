@@ -5,6 +5,8 @@ import { IdleSpawnState } from "Spawn/IdleSpawnState"
 import { ISpawnState } from "IState/ISpawnState"
 import { IdleHaulerState } from "Hauler/IdleHaulerState"
 import { IdleUpgraderState } from "Upgrader/IdleUpgraderState"
+import { getOpenSpaces } from "Utility/getOpenSpaces"
+import { HarvesterData } from "definitions"
 
 
 export class RoomState {
@@ -15,8 +17,20 @@ export class RoomState {
     upgraderStates: ICreepState[]
 
     public executeLogic(): void {
+        if (!Memory.rooms[this.room.name]){
+            this.initRoom()
+        }
+
         this.creepLogic()
         this.spawnLogic()
+    }
+
+    //MARK: -InitRoom
+    private initRoom(): void {
+        Memory.rooms[this.room.name] = {remoteHarvestSites: []}
+        for (const source of this.sources){
+            Memory.rooms[this.room.name].remoteHarvestSites.push({sourceId: source.id, sourcePos: source.pos, numPositions: getOpenSpaces(source.pos, this.room, 1), assignedHarvesters: []})
+        }
     }
 
     // MARK: -CreepLogic
@@ -59,6 +73,15 @@ export class RoomState {
     
     get sources(): Source[] {
         return this.room.find(FIND_SOURCES)
+    }
+
+    get openSource(): HarvesterData | null {
+        for (const site of Memory.rooms[this.room.name].remoteHarvestSites){
+            if (site.assignedHarvesters.length < site.numPositions){
+                return {id: site.sourceId, pos: site.sourcePos}
+            }
+        }
+        return null
     }
 
     get minerals(): Mineral[] {
@@ -104,7 +127,7 @@ export class RoomState {
         }
 
         for (const spawn of this.spawns){
-            this.spawningStates.push(new IdleSpawnState(spawn))
+            this.spawningStates.push(new IdleSpawnState(spawn, this))
         }
     }
 }

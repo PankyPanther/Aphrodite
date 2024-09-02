@@ -8,7 +8,7 @@ export class UpgraderSpawnState implements ISpawnState {
         return this
     }
     run(): void {
-        this.spawn.spawnCreep([WORK, CARRY, MOVE], "Upgrader" + Game.time, {memory: {role: Role.Upgrader}})
+        this.spawn.spawnCreep([WORK, CARRY, MOVE], "Upgrader" + Game.time, {memory: {homeRoom: this.spawn.room.name, role: Role.Upgrader}})
     }
     
     constructor(spawn: StructureSpawn){

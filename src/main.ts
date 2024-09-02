@@ -3,6 +3,10 @@ import { memHack } from "Utility/MemHack";
 import { isMMO } from "Utility/Utility";
 
 class Root {
+    startUp(): void {
+        if (!Memory.rooms) {Memory.rooms = {}}
+    }
+
     runTick(): void {
         for (const roomName in Game.rooms){
             const room = Game.rooms[roomName]
@@ -33,6 +37,8 @@ class Root {
 const root = new Root()
 export function loop(): void {
     memHack.modifyMemory()
+
+    root.startUp()
     root.runTick()
     root.cleanUp()
     root.generatePixels()
