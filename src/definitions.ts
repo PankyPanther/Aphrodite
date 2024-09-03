@@ -13,7 +13,7 @@ declare global {
         sourceId: Id<Source>,
         sourcePos: RoomPosition,
         numPositions: number,
-        assignedHarvesters: Id<Creep>[]
+        assignedHarvesters: string[] //creepName
       }[]
     }
 
